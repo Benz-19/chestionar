@@ -1,5 +1,4 @@
 <?php
-// config/config.php - Ensure this file exists and is correctly configured
 
 $host = "localhost";
 $username = "root";
@@ -21,8 +20,8 @@ if ($conn->connect_error) {
  *
  * @param mysqli $conn The database connection object.
  * @param string $query The SQL query to execute (use '?' for placeholders).
- * @param array $params An array where the first element is a string of parameter types (e.g., 's', 'i', 'd', 'b'),
- * followed by the actual parameter values. E.g., ['s', 'value', 'i', 123].
+ * @param array $params An array where the first element is a string of parameter types
+ * followed by the actual parameter values.
  * @return bool True on success, false on failure.
  */
 function execute($conn, $query, $params = [])
@@ -36,15 +35,13 @@ function execute($conn, $query, $params = [])
         }
 
         if (!empty($params) && is_array($params)) {
-            // The first element of $params is the type string, the rest are values
-            $types = array_shift($params); // Get the type string ('s', 'ss', 'is', etc.)
+            $types = array_shift($params);
 
-            // Ensure $params values are passed by reference for bind_param
             $bind_refs = [];
             foreach ($params as $key => $value) {
                 $bind_refs[$key] = &$params[$key];
             }
-            array_unshift($bind_refs, $types); // Add types string to the beginning of the array
+            array_unshift($bind_refs, $types);
 
             // Call bind_param dynamically
             // Check if bind_param was successful
@@ -73,8 +70,8 @@ function execute($conn, $query, $params = [])
  *
  * @param mysqli $conn The database connection object.
  * @param string $query The SQL query to execute.
- * @param array $params An array where the first element is a string of parameter types (e.g., 's', 'i', 'd', 'b'),
- * followed by the actual parameter values. E.g., ['s', 'username_value'].
+ * @param array $params An array where the first element is a string of parameter types
+ * followed by the actual parameter values.
  * @return array|null An associative array representing the row, or null if no row is found or an error occurs.
  */
 function fetchSingleData($conn, $query, $params = [])
